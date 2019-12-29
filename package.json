@@ -1,0 +1,26 @@
+{
+  "name": "wbs_editor",
+  "version": "1.0.0",
+  "description": "使用ライブラリ   - Node.js   - electron   - (typescript)",
+  "main": "js/main.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && electron ./js/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keiiti975/wbs_editor.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/keiiti975/wbs_editor/issues"
+  },
+  "homepage": "https://github.com/keiiti975/wbs_editor#readme",
+  "dependencies": {
+    "electron": "^7.1.7"
+  },
+  "devDependencies": {
+    "typescript": "^3.7.4"
+  }
+}
