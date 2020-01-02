@@ -10,14 +10,35 @@ html, body {
 
 #editor_area {
     width: 100%;
-    height: calc(100% - 60px);
+    height: calc(100% - 70px);
+}
+
+#depth_area {
+    width: 100%;
+    height: 25px;
+    text-align: left;
+}
+
+.depth_node {
+    width: 200px;
+    height: 25px;
+    background-color: gray;
+    color: white;
+    border: 1px solid black;
+    display: inline-block;
+    margin-right: -8px;
+}
+
+#task_area {
+    width: 100%;
+    height: calc(100% - 25px);
 }
 
 #footer_area {
     width: 100%;
-    height: 50px;
+    height: 30px;
     text-align: center;
-    margin: 5px 0px;
+    margin: 10px 0px;
 }
 
 .btn-circle-stitch {
