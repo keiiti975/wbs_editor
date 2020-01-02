@@ -26,7 +26,7 @@ function createInputWindow() {
             nodeIntegration: true
         },
         width: 350,
-        height: 350
+        height: 250
     });
     // vanish menubar
     inputWindow.setMenu(null);
