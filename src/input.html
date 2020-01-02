@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Task</title>
+</head>
+
+<body>
+    <form>
+        <fieldset>
+            <legend>タスク情報</legend>
+            タスク：<input type="text" name="name" size="25"><br>
+            進行度<br>
+            <input type="radio" name="progress" value="not_started" checked>未着手<br>
+            <input type="radio" name="progress" value="in_progress">進行中<br>
+            <input type="radio" name="progress" value="done">完了<br>
+        </fieldset>
+        <fieldset>
+            <legend>メモ</legend>
+            <textarea name="memo" rows="3" cols="40"></textarea>
+        </fieldset>
+        <input type="submit" value="送信">
+    </form>
+
+    <script>
+        const electron = require('electron');
+        const { ipcRenderer } = electron;
+
+        // Insert text
+        document.querySelector('form').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const { value } = document.querySelector('input');
+            ipcRenderer.send('sentence:insert', value);
+        });
+    </script>
+</body>
+
+</html>

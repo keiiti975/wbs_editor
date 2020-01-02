@@ -1,54 +1,46 @@
-import { app, BrowserWindow } from "electron";
-import * as path from "path";
+import { app, BrowserWindow, ipcMain } from "electron";
+import { initWindowMenu } from "./menu/menubar";
+import path = require("path");
 
-let mainWindow: Electron.BrowserWindow;
+let mainWindow: BrowserWindow;
+let inputWindow: BrowserWindow;
 
-function createWindow() {
-    // Create the browser window.
+app.on("ready", () => {
     mainWindow = new BrowserWindow({
-        height: 600,
         webPreferences: {
-            nodeIntegration: true //trueにしておく。preload使ってもいいけど今回はパス。
+            nodeIntegration: true
         },
-        width: 800,
+        width: 700,
+        height: 600
     });
+    // customize menu
+    initWindowMenu(mainWindow);
 
-    // and load the index.html of the app.
-    mainWindow.loadFile(path.join(__dirname, "../src/index.html"));　//index.htmlはsrcフォルダ（main.jsはjsフォルダ）なのでパス気をつけて。
+    mainWindow.loadFile(path.join(path.dirname(__dirname), "src", 'main.html'));
+    mainWindow.on("closed", () => app.quit());
+});
 
-    // Open the DevTools.
-    mainWindow.webContents.openDevTools();
-
-    // Emitted when the window is closed.
-    mainWindow.on("closed", () => {
-        // Dereference the window object, usually you would store windows
-        // in an array if your app supports multi windows, this is the time
-        // when you should delete the corresponding element.
-        mainWindow = null;
+function createInputWindow() {
+    inputWindow = new BrowserWindow({
+        webPreferences: {
+            nodeIntegration: true
+        },
+        width: 350,
+        height: 350
     });
+    // vanish menubar
+    inputWindow.setMenu(null);
+    
+    inputWindow.loadFile(path.join(path.dirname(__dirname), "src", 'input.html'));
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on("ready", createWindow);
-
-// Quit when all windows are closed.
-app.on("window-all-closed", () => {
-    // On OS X it is common for applications and their menu bar
-    // to stay active until the user quits explicitly with Cmd + Q
-    if (process.platform !== "darwin") {
-        app.quit();
-    }
+// Create a input window
+ipcMain.on("inputWindow:create", event => {
+    createInputWindow();
 });
 
-app.on("activate", () => {
-    // On OS X it"s common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (mainWindow === null) {
-        createWindow();
-    }
+// send a sentence to a main window
+ipcMain.on("sentence:insert", (event, sentence) => {
+    mainWindow.webContents.send("sentence:insert", sentence);
+    inputWindow.close();
 });
-
-// In this file you can include the rest of your app"s specific main process
-// code. You can also put them in separate files and require them here.

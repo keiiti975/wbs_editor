@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>wbs_editor</title>
+    <link href="css/main.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="editor_area"></div>
+
+    <div id="footer_area">
+        拡大率:
+        <input type="number"/>
+        <input type="range" style="margin-right: 20px;"/>
+        <a href="#" id="input_sentence" class="btn-circle-stitch">+</a>
+        <a href="#" id="clear_sentences" class="btn-circle-stitch">-</a>
+    </div>
+
+    <script>
+        const electron = require('electron');
+        const { ipcRenderer } = electron;
+
+        const editor_area = document.getElementById('editor_area');
+        const insert = document.getElementById('input_sentence');
+        const clear = document.getElementById('clear_sentences');
+
+        // Request a input window
+        insert.addEventListener('click', (event) => {
+            ipcRenderer.send('inputWindow:create');
+        });
+
+        // Clear sentences
+        clear.addEventListener('click', (event) => {
+            editor_area.innerHTML = "";
+        });
+
+        // Insert sentence
+        ipcRenderer.on('sentence:insert', (event, sentence) => {
+            if (sentence.trim() === '') {
+                return;
+            }
+            const text = document.createTextNode(sentence);
+            const p = document.createElement('p');
+            p.appendChild(text);
+            editor_area.appendChild(p);
+        });
+    </script>
+</body>
+
+</html>
