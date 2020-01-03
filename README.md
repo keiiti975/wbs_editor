@@ -20,6 +20,7 @@ divの大きさ指定にはcalc()が便利
 図メインのWBSは可読性が悪いため、表形式のWBSを作る  
 console = require('electron').remote.require('console');  
 →このコードでレンダラープロセスのデバックができる  
+BrowserWindowは別ファイルからの構築にreturnが必須  
 
 ---  
 #### インストール方法  

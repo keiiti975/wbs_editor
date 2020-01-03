@@ -20,13 +20,14 @@
     </form>
 
     <script>
-        const electron = require('electron');
-        const { ipcRenderer } = electron;
-        let form = document.querySelector("form");
         // for debugging
         console = require('electron').remote.require('console');
 
-        // Insert task information
+        const electron = require('electron');
+        const { ipcRenderer } = electron;
+        let form = document.querySelector("form");
+
+        // submit task information
         form.addEventListener('submit', (event) => {
             event.preventDefault();
             let form_data = new FormData(form);
