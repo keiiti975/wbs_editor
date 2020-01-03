@@ -16,18 +16,25 @@
             <input type="radio" name="progress" value="in_progress">進行中<br>
             <input type="radio" name="progress" value="done">完了<br>
         </fieldset>
-        <input type="submit" value="送信">
+        <button type="submit">送信</button>
     </form>
 
     <script>
         const electron = require('electron');
         const { ipcRenderer } = electron;
+        let form = document.querySelector("form");
+        // for debugging
+        console = require('electron').remote.require('console');
 
-        // Insert text
-        document.querySelector('form').addEventListener('submit', (event) => {
+        // Insert task information
+        form.addEventListener('submit', (event) => {
             event.preventDefault();
-            const { value } = document.querySelector('input');
-            ipcRenderer.send('sentence:insert', value);
+            let form_data = new FormData(form);
+            let json_form = {};
+            for (const entry of form_data) {
+                json_form[entry[0]] = entry[1];
+            };
+            ipcRenderer.send('inputForm:insert', json_form);
         });
     </script>
 </body>

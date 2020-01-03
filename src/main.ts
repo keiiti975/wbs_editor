@@ -28,7 +28,7 @@ function createInputWindow() {
         width: 350,
         height: 250
     });
-    // vanish menubar
+    // vanish menu
     inputWindow.setMenu(null);
     
     inputWindow.loadFile(path.join(path.dirname(__dirname), "src", 'input.html'));
@@ -40,7 +40,7 @@ ipcMain.on("inputWindow:create", event => {
 });
 
 // send a sentence to a main window
-ipcMain.on("sentence:insert", (event, sentence) => {
-    mainWindow.webContents.send("sentence:insert", sentence);
+ipcMain.on("inputForm:insert", (event, inputForm) => {
+    mainWindow.webContents.send("inputForm:insert", inputForm);
     inputWindow.close();
 });
