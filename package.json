@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/keiiti975/wbs_editor#readme",
   "dependencies": {
-    "electron": "^7.1.7"
+    "electron": "^7.1.7",
+    "encoding-japanese": "^1.0.30"
   },
   "devDependencies": {
     "typescript": "^3.7.4"

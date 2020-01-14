@@ -21,6 +21,8 @@ divの大きさ指定にはcalc()が便利
 console = require('electron').remote.require('console');  
 →このコードでレンダラープロセスのデバックができる  
 BrowserWindowは別ファイルからの構築にreturnが必須  
+コマンドプロンプトでの日本語表示にchcp 65001が必須  
+
 
 ---  
 #### インストール方法  

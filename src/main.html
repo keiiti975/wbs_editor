@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
     <title>wbs_editor</title>
     <link href="css/main.css" rel="stylesheet" />
 </head>
@@ -35,14 +35,17 @@
 
     <script>
         // for debugging
-        console = require('electron').remote.require('console');
-
+        const console = require('electron').remote.require('console');
+        const encoding = require('encoding-japanese');
         const electron = require('electron');
+
         const { ipcRenderer } = electron;
 
         const editor_area = document.getElementById('editor_area');
         const insert_task_btn = document.getElementById('insert_task');
         const delete_task_btn = document.getElementById('delete_task');
+
+        let selected_elem = null;
 
         // get mouse position function
         function getMousePos (e) {
@@ -60,10 +63,17 @@
             return { x: posx, y: posy }
         };
 
-        // get mouse position
+        // get clicked element
         editor_area.addEventListener('click', (event) => {
-            json_pos = getMousePos(event);
-            console.log(json_pos);
+            let json_pos = getMousePos(event);
+            let elem_posx = Math.floor(json_pos["x"]/200);
+            let elem_posy = Math.floor(json_pos["y"]/25);
+            let elem = document.getElementById("d"+String(elem_posx)+"_"+String(elem_posy));
+            elem.style.backgroundColor = 'yellow';
+            if (selected_elem != null) {
+                selected_elem.style.backgroundColor ='white';
+            }
+            selected_elem = elem; 
         });
 
         // request a input window
@@ -73,7 +83,9 @@
 
         // insert task
         ipcRenderer.on('inputForm:insert', (event, inputForm) => {
-            console.log(inputForm);
+            // console.log(inputForm);
+            let child_nodes = selected_elem.parentNode.children;
+            Array.prototype.forEach.call(child_nodes, (value) => {console.log(value.id)});
         });
 
         // delete task
