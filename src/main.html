@@ -2,7 +2,7 @@
 <html lang="ja">
 
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8" />
     <title>wbs_editor</title>
     <link href="css/main.css" rel="stylesheet" />
 </head>
@@ -36,7 +36,6 @@
     <script>
         // for debugging
         const console = require('electron').remote.require('console');
-        const encoding = require('encoding-japanese');
         const electron = require('electron');
 
         const { ipcRenderer } = electron;
@@ -48,7 +47,7 @@
         let selected_elem = null;
 
         // get mouse position function
-        function getMousePos (e) {
+        function getMousePos(e) {
             let posx = 0;
             let posy = 0;
             if (!e) e = window.event;
@@ -66,14 +65,14 @@
         // get clicked element
         editor_area.addEventListener('click', (event) => {
             let json_pos = getMousePos(event);
-            let elem_posx = Math.floor(json_pos["x"]/200);
-            let elem_posy = Math.floor(json_pos["y"]/25);
-            let elem = document.getElementById("d"+String(elem_posx)+"_"+String(elem_posy));
+            let elem_posx = Math.floor(json_pos["x"] / 200);
+            let elem_posy = Math.floor(json_pos["y"] / 25);
+            let elem = document.getElementById("d" + String(elem_posx) + "_" + String(elem_posy));
             elem.style.backgroundColor = 'yellow';
             if (selected_elem != null) {
-                selected_elem.style.backgroundColor ='white';
+                selected_elem.style.backgroundColor = 'white';
             }
-            selected_elem = elem; 
+            selected_elem = elem;
         });
 
         // request a input window
@@ -84,8 +83,18 @@
         // insert task
         ipcRenderer.on('inputForm:insert', (event, inputForm) => {
             // console.log(inputForm);
+            let selected_id = Number(selected_elem.id.split("_")[1]);
             let child_nodes = selected_elem.parentNode.children;
-            Array.prototype.forEach.call(child_nodes, (value) => {console.log(value.id)});
+            Array.prototype.forEach.call(child_nodes, (value) => {
+                let value_depth = value.id.split("_")[0];
+                let value_id = value.id.split("_")[1];
+                if (value_id != "name") {
+                    value_id = Number(value_id);
+                    if (selected_id <= value_id) {
+                        value.id = value_depth + "_" + String(value_id + 1);
+                    }
+                }
+            });
         });
 
         // delete task
