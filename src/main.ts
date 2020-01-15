@@ -1,6 +1,6 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import { initMainWindowMenu } from "./menu/init";
-import { createInputWindow } from "./window/create";
+import { initInputWindow } from "./window/init";
 import path = require("path");
 
 let mainWindow: Electron.BrowserWindow;
@@ -23,7 +23,7 @@ app.on("ready", () => {
 
 // create a input window
 ipcMain.on("inputWindow:create", (event) => {
-    inputWindow = createInputWindow(inputWindow);
+    inputWindow = initInputWindow(inputWindow);
 });
 
 // send a inputForm to a main window

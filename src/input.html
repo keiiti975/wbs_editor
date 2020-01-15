@@ -21,10 +21,11 @@
 
     <script>
         // for debugging
-        console = require('electron').remote.require('console');
-
+        const console = require('electron').remote.require('console');
         const electron = require('electron');
+
         const { ipcRenderer } = electron;
+        
         let form = document.querySelector("form");
 
         // submit task information

@@ -5,7 +5,7 @@ import path = require("path");
  * create inputWindow
  * @param {Electron.BrowserWindow} inputWindow
  */
-export function createInputWindow(inputWindow: Electron.BrowserWindow) {
+export function initInputWindow(inputWindow: Electron.BrowserWindow) {
     inputWindow = new BrowserWindow({
         webPreferences: {
             nodeIntegration: true

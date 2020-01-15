@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <title>wbs_editor</title>
     <link href="css/main.css" rel="stylesheet" />
+    <script type="text/javascript" src="../js/tree/init.js"></script>
 </head>
 
 <body>
@@ -99,7 +100,21 @@
 
         // delete task
         delete_task_btn.addEventListener('click', (event) => {
-            editor_area.innerHTML = "";
+            const root = new Tree_Node('Root');
+
+            let groupA = new Tree_Node('GROUP_A');
+            let groupB = new Tree_Node('GROUP_B');
+
+            root.addchild(groupA);
+            root.addchild(groupB);
+
+            let groupA_1 = new Tree_Node('GROUP_A_1');
+            let groupA_2 = new Tree_Node('GROUP_A_2');
+
+            groupA.addchild(groupA_1);
+            groupA.addchild(groupA_2);
+
+            console.log(root.countleaf());
         });
     </script>
 </body>
