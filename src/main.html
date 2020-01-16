@@ -6,27 +6,12 @@
     <title>wbs_editor</title>
     <link href="css/main.css" rel="stylesheet" />
     <script type="text/javascript" src="../js/tree/init.js"></script>
+    <script type="text/javascript" src="../js/window/generate_html.js"></script>
 </head>
 
 <body>
     <div id="editor_area" style="white-space: nowrap; overflow-x: scroll; padding-bottom: 15px;">
-        <div id="d0_area" class="depth_area">
-            <div id="d0_name" class="depth_node">目的</div>
-            <div id="d0_1" class="task_node">カレーライスを作る</div>
-        </div>
-        <div id="d1_area" class="depth_area">
-            <div id="d1_name" class="depth_node">フェーズ</div>
-            <div id="d1_1" class="task_node">カレーを煮込む</div>
-        </div>
-        <div id="d2_area" class="depth_area">
-            <div id="d2_name" class="depth_node">タスク</div>
-            <div id="d2_1" class="task_node">ニンジンを切る</div>
-            <div id="d2_2" class="task_node">玉ねぎを切る</div>
-            <div id="d2_3" class="task_node">ジャガイモを切る</div>
-            <div id="d2_4" class="task_node">お米を研ぐ</div>
-            <div id="d2_5" class="task_node">お米を水に浸す</div>
-            <div id="d2_6" class="task_node">ご飯を炊く</div>
-        </div>
+
     </div>
 
     <div id="footer_area">
@@ -63,6 +48,11 @@
             return { x: posx, y: posy }
         };
 
+        function load_editor() {
+            let tree = makeSampleTree();
+            editor_area.insertAdjacentHTML("afterbegin", tree2html(tree));
+        };
+
         // get clicked element
         editor_area.addEventListener('click', (event) => {
             let json_pos = getMousePos(event);
@@ -70,7 +60,7 @@
             let elem_posy = Math.floor(json_pos["y"] / 25);
             let elem = document.getElementById("d" + String(elem_posx) + "_" + String(elem_posy));
             elem.style.backgroundColor = 'yellow';
-            if (selected_elem != null) {
+            if (selected_elem != null && elem != selected_elem) {
                 selected_elem.style.backgroundColor = 'white';
             }
             selected_elem = elem;
@@ -83,7 +73,6 @@
 
         // insert task
         ipcRenderer.on('inputForm:insert', (event, inputForm) => {
-            // console.log(inputForm);
             let selected_id = Number(selected_elem.id.split("_")[1]);
             let child_nodes = selected_elem.parentNode.children;
             Array.prototype.forEach.call(child_nodes, (value) => {
@@ -100,21 +89,7 @@
 
         // delete task
         delete_task_btn.addEventListener('click', (event) => {
-            const root = new Tree_Node('Root');
-
-            let groupA = new Tree_Node('GROUP_A');
-            let groupB = new Tree_Node('GROUP_B');
-
-            root.addchild(groupA);
-            root.addchild(groupB);
-
-            let groupA_1 = new Tree_Node('GROUP_A_1');
-            let groupA_2 = new Tree_Node('GROUP_A_2');
-
-            groupA.addchild(groupA_1);
-            groupA.addchild(groupA_2);
-
-            console.log(root.countleaf());
+            load_editor();
         });
     </script>
 </body>

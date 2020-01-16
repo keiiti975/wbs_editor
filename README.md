@@ -22,12 +22,18 @@ console = require('electron').remote.require('console');
 →このコードでレンダラープロセスのデバックができる  
 BrowserWindowは別ファイルからの構築にreturnが必須  
 コマンドプロンプトでの日本語表示にchcp 65001が必須  
+macOSにNode.jsを再インストールする必要あり  
+macOSにelectronが入らない時には、.electronに手動でパッケージを入れる  
 
 
 ---  
 #### インストール方法  
+#### node.jsのインストール  
 - Windows  
     win_node_installer.bat  
-    win_env_installer.bat  
-    (typescriptの設定の初期化).\node_modules\.bin\tsc --init  
+- macOS  
+    sh macOS_node_installer.sh  
+
+#### ライブラリのインストール  
+npm install  
         

@@ -15,7 +15,7 @@ export function initInputWindow(inputWindow: Electron.BrowserWindow) {
     });
     // vanish menu
     inputWindow.setMenu(null);
-    
+
     inputWindow.loadFile(path.join(path.dirname(path.dirname(__dirname)), "src", 'input.html'));
     return inputWindow;
 }
