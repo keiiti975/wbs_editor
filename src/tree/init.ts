@@ -1,3 +1,6 @@
+/**
+ * Node of Task Tree
+ */
 class Tree_Node {
     name: string;
     depth: number;
@@ -41,7 +44,9 @@ class Tree_Node {
     }
 }
 
-// make Sample Tree
+/**
+ * make sample Task Tree
+ */
 function makeSampleTree() {
     const root: Tree_Node = new Tree_Node('Root');
 
@@ -53,8 +58,14 @@ function makeSampleTree() {
 
     const group_A_1: Tree_Node = new Tree_Node('GROUP_A_1');
     const group_A_2: Tree_Node = new Tree_Node('GROUP_A_2');
+    const group_A_3: Tree_Node = new Tree_Node('GROUP_A_3');
+    const group_A_4: Tree_Node = new Tree_Node('GROUP_A_4');
+    const group_A_5: Tree_Node = new Tree_Node('GROUP_A_5');
 
     group_A.addchild(group_A_1);
     group_A.addchild(group_A_2);
+    group_A.addchild(group_A_3);
+    group_A.addchild(group_A_4);
+    group_A.addchild(group_A_5);
     return root;
 };

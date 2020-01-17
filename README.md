@@ -24,7 +24,7 @@ BrowserWindowは別ファイルからの構築にreturnが必須
 コマンドプロンプトでの日本語表示にchcp 65001が必須  
 macOSにNode.jsを再インストールする必要あり  
 macOSにelectronが入らない時には、.electronに手動でパッケージを入れる  
-
+inline-blockでの横並びの隙間を塞ぐために、親要素にfont-size: 0をつける  
 
 ---  
 #### インストール方法  

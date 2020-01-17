@@ -6,11 +6,13 @@
     <title>wbs_editor</title>
     <link href="css/main.css" rel="stylesheet" />
     <script type="text/javascript" src="../js/tree/init.js"></script>
-    <script type="text/javascript" src="../js/window/generate_html.js"></script>
+    <script type="text/javascript" src="../js/window/generate.js"></script>
+    <script type="text/javascript" src="../js/window/transition.js"></script>
+    <script type="text/javascript" src="../js/utils/element_selector.js"></script>
 </head>
 
 <body>
-    <div id="editor_area" style="white-space: nowrap; overflow-x: scroll; padding-bottom: 15px;">
+    <div id="editor_area" style="white-space: nowrap; overflow-x: scroll; padding-bottom: 15px; font-size: 0;">
 
     </div>
 
@@ -32,38 +34,21 @@
 
         let selected_elem = null;
 
-        // get mouse position function
-        function getMousePos(e) {
-            let posx = 0;
-            let posy = 0;
-            if (!e) e = window.event;
-            if (e.pageX || e.pageY) {
-                posx = e.pageX;
-                posy = e.pageY;
-            }
-            else if (e.clientX || e.clientY) {
-                posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-                posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-            }
-            return { x: posx, y: posy }
-        };
-
+        // load editor from Task Tree
         function load_editor() {
             let tree = makeSampleTree();
             editor_area.insertAdjacentHTML("afterbegin", tree2html(tree));
+            adjustElementHeight(tree);
         };
+
+        // select element
+        function select_element() {
+            selected_elem = getClickedElement(event, selected_elem);
+        }
 
         // get clicked element
         editor_area.addEventListener('click', (event) => {
-            let json_pos = getMousePos(event);
-            let elem_posx = Math.floor(json_pos["x"] / 200);
-            let elem_posy = Math.floor(json_pos["y"] / 25);
-            let elem = document.getElementById("d" + String(elem_posx) + "_" + String(elem_posy));
-            elem.style.backgroundColor = 'yellow';
-            if (selected_elem != null && elem != selected_elem) {
-                selected_elem.style.backgroundColor = 'white';
-            }
-            selected_elem = elem;
+            select_element();
         });
 
         // request a input window
@@ -73,18 +58,7 @@
 
         // insert task
         ipcRenderer.on('inputForm:insert', (event, inputForm) => {
-            let selected_id = Number(selected_elem.id.split("_")[1]);
-            let child_nodes = selected_elem.parentNode.children;
-            Array.prototype.forEach.call(child_nodes, (value) => {
-                let value_depth = value.id.split("_")[0];
-                let value_id = value.id.split("_")[1];
-                if (value_id != "name") {
-                    value_id = Number(value_id);
-                    if (selected_id <= value_id) {
-                        value.id = value_depth + "_" + String(value_id + 1);
-                    }
-                }
-            });
+            increment_id_below_selected_element(selected_elem);
         });
 
         // delete task

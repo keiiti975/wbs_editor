@@ -14,28 +14,28 @@ html, body {
 }
 
 .depth_area {
+    width: 200px;
     display: inline-block;
     vertical-align: top;
+    font-size: 15px;
 }
 
 .depth_node {
-    width: 200px;
-    height: 25px;
+    width: 198px;
+    height: 23px;
     background-color: gray;
     color: white;
     border: 1px solid black;
-    margin-right: -8px;
 }
 
 .task_node {
-    width: 200px;
-    height: 25px;
+    width: 198px;
+    height: 23px;
     background-color: white;
     color: black;
     border-right: 1px solid black;
     border-left: 1px solid black;
     border-bottom: 1px solid black;
-    margin-right: -8px;
 }
 
 #footer_area {

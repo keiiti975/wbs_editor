@@ -6,6 +6,7 @@ import path = require("path");
 let mainWindow: Electron.BrowserWindow;
 let inputWindow: Electron.BrowserWindow;
 
+// start application and create mainWindow
 app.on("ready", () => {
     mainWindow = new BrowserWindow({
         webPreferences: {
@@ -21,12 +22,12 @@ app.on("ready", () => {
     mainWindow.on("closed", () => app.quit());
 });
 
-// create a input window
+// create inputWindow
 ipcMain.on("inputWindow:create", (event) => {
-    inputWindow = initInputWindow(inputWindow);
+    inputWindow = initInputWindow(inputWindow, 350, 250);
 });
 
-// send a inputForm to a main window
+// send inputForm to mainWindow
 ipcMain.on("inputForm:insert", (event, inputForm) => {
     mainWindow.webContents.send("inputForm:insert", inputForm);
     inputWindow.close();

@@ -5,13 +5,13 @@ import path = require("path");
  * create inputWindow
  * @param {Electron.BrowserWindow} inputWindow
  */
-export function initInputWindow(inputWindow: Electron.BrowserWindow) {
+export function initInputWindow(inputWindow: Electron.BrowserWindow, width: number, height: number) {
     inputWindow = new BrowserWindow({
         webPreferences: {
             nodeIntegration: true
         },
-        width: 350,
-        height: 250
+        width: width,
+        height: height
     });
     // vanish menu
     inputWindow.setMenu(null);
