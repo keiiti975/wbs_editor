@@ -35,8 +35,8 @@
         let selected_elem = null;
 
         // load editor from Task Tree
-        function load_editor() {
-            let tree = makeSampleTree();
+        function load_editor(tree) {
+            init_editor_area();
             editor_area.insertAdjacentHTML("afterbegin", tree2html(tree));
             adjustElementHeight(tree);
         };
@@ -63,7 +63,8 @@
 
         // delete task
         delete_task_btn.addEventListener('click', (event) => {
-            load_editor();
+            let tree = makeSampleTree();
+            load_editor(tree);
         });
     </script>
 </body>

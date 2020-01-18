@@ -16,3 +16,15 @@ function increment_id_below_selected_element(selected_elem: HTMLElement) {
         }
     });
 };
+
+/**
+ * initialize editor_area
+ */
+function init_editor_area() {
+    let child_nodes: HTMLCollection = document.getElementById("editor_area").children;
+    let child_ids: Array<string> = [];
+    Array.prototype.forEach.call(child_nodes, (value: HTMLElement) => {
+        child_ids.push(value.id);
+    });
+    child_ids.forEach((value) => { document.getElementById(value).remove() });
+};
