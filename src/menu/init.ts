@@ -24,8 +24,8 @@ export function initMainWindowMenu(mainWindow: Electron.BrowserWindow) {
                 }
             ]
         }
-    ]
+    ];
 
     const menu = Menu.buildFromTemplate(template);
     mainWindow.setMenu(menu);
-}
+};

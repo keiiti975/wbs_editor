@@ -26,6 +26,13 @@ macOSにNode.jsを再インストールする必要あり
 macOSにelectronが入らない時には、.electronに手動でパッケージを入れる  
 inline-blockでの横並びの隙間を塞ぐために、親要素にfont-size: 0をつける  
 
+#### コード付きメモ  
+htmlでexportのついたクラスや関数を呼び出す時、htmlで以下をつける  
+type=text/javascriptで読み込む  
+~~~
+<script> var exports = {}; </script>
+~~~  
+
 ---  
 #### インストール方法  
 #### node.jsのインストール  

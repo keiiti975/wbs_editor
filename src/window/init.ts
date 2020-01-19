@@ -18,4 +18,4 @@ export function initInputWindow(inputWindow: Electron.BrowserWindow, width: numb
 
     inputWindow.loadFile(path.join(path.dirname(path.dirname(__dirname)), "src", 'input.html'));
     return inputWindow;
-}
+};

@@ -2,7 +2,7 @@
  * get absolute mouse position
  * @param {MouseEvent} event 
  */
-function getMousePos(event: any) {
+export function getMousePos(event: any) {
     let posx: number = 0;
     let posy: number = 0;
     if (!event) event = window.event;
@@ -22,7 +22,7 @@ function getMousePos(event: any) {
  * @param {number} posx 
  * @param {number} posy 
  */
-function getClickedElementId(posx: number, posy: number) {
+export function getClickedElementId(posx: number, posy: number) {
     let elem_height: number = 1;
     let sum_elem_height: number = 1;
     let result_id: string = "";
@@ -45,7 +45,7 @@ function getClickedElementId(posx: number, posy: number) {
  * @param {MouseEvent} event 
  * @param {HTMLElement} selected_elem 
  */
-function getClickedElement(event: any, selected_elem: HTMLElement) {
+export function getClickedElement(event: any, selected_elem: HTMLElement) {
     let json_pos: { x: number, y: number } = getMousePos(event);
     let elem_posx: number = Math.floor(json_pos["x"] / 200);
     let elem_posy: number = Math.floor(json_pos["y"] / 25);

@@ -1,10 +1,12 @@
+import { Tree_Node } from "../tree/init";
+
 /**
  * generate html from depth, id, name of node
  * @param {number} node_depth 
  * @param {string | number} node_id 
  * @param {string} node_name 
  */
-function generate_html(node_depth: number, node_id: string | number, node_name: string = null) {
+export function generate_html(node_depth: number, node_id: string | number, node_name: string = null) {
     if (node_id == "area") {
         return "<div id=\"" + generate_id(node_depth, node_id) + "\" class=\"" + generate_class(node_id) + "\">\n";
     } else if (node_id == "name") {
@@ -19,7 +21,7 @@ function generate_html(node_depth: number, node_id: string | number, node_name: 
  * @param {number} node_depth 
  * @param {string | number} node_id 
  */
-function generate_id(node_depth: number, node_id: string | number) {
+export function generate_id(node_depth: number, node_id: string | number) {
     if (node_id == "area") {
         return "d" + String(node_depth) + "_area";
     } else if (node_id == "name") {
@@ -33,7 +35,7 @@ function generate_id(node_depth: number, node_id: string | number) {
  * generate string of class from id of node
  * @param {string | number} node_id 
  */
-function generate_class(node_id: string | number) {
+export function generate_class(node_id: string | number) {
     if (node_id == "area") {
         return "depth_area";
     } else if (node_id == "name") {
@@ -47,7 +49,7 @@ function generate_class(node_id: string | number) {
  * generate html from Task Tree
  * @param {Tree_Node} tree 
  */
-function tree2html(tree: Tree_Node) {
+export function tree2html(tree: Tree_Node) {
     let node_counter: number = 1;
     let html_string: string = "";
     let queue: Tree_Node[] = [tree];
@@ -77,7 +79,7 @@ function tree2html(tree: Tree_Node) {
  * adjust element height with tree
  * @param {Tree_Node} tree 
  */
-function adjustElementHeight(tree: Tree_Node) {
+export function adjustElementHeight(tree: Tree_Node) {
     let elem_counter: number = 1;
     let elem_height: number = 25;
     let queue: Tree_Node[] = [tree];

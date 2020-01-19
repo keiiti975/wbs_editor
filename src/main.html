@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <title>wbs_editor</title>
     <link href="css/main.css" rel="stylesheet" />
+    <script> var exports = {}; </script>
     <script type="text/javascript" src="../js/tree/init.js"></script>
     <script type="text/javascript" src="../js/window/generate.js"></script>
     <script type="text/javascript" src="../js/window/transition.js"></script>
@@ -33,6 +34,12 @@
         const delete_task_btn = document.getElementById('delete_task');
 
         let selected_elem = null;
+        let tree = makeSampleTree();
+
+        // select element
+        function select_element() {
+            selected_elem = getClickedElement(event, selected_elem);
+        };
 
         // load editor from Task Tree
         function load_editor(tree) {
@@ -40,11 +47,6 @@
             editor_area.insertAdjacentHTML("afterbegin", tree2html(tree));
             adjustElementHeight(tree);
         };
-
-        // select element
-        function select_element() {
-            selected_elem = getClickedElement(event, selected_elem);
-        }
 
         // get clicked element
         editor_area.addEventListener('click', (event) => {
@@ -58,12 +60,12 @@
 
         // insert task
         ipcRenderer.on('inputForm:insert', (event, inputForm) => {
-            increment_id_below_selected_element(selected_elem);
+            insert_task2tree(tree, selected_elem, inputForm);
+            load_editor(tree);
         });
 
         // delete task
         delete_task_btn.addEventListener('click', (event) => {
-            let tree = makeSampleTree();
             load_editor(tree);
         });
     </script>
