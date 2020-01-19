@@ -17,8 +17,9 @@
     </div>
 
     <div id="footer_area">
-        <a href="#" id="insert_task" class="btn-circle-stitch">+</a>
-        <a href="#" id="delete_task" class="btn-circle-stitch">-</a>
+        <a href="#" id="correct_task" class="btn-flat-border">correct</a>
+        <a href="#" id="insert_task" class="btn-flat-border">insert</a>
+        <a href="#" id="delete_task" class="btn-flat-border">delete</a>
     </div>
 
     <script>
@@ -29,49 +30,23 @@
         const { ipcRenderer } = electron;
 
         const editor_area = document.getElementById('editor_area');
+        const correct_task_btn = document.getElementById('correct_task');
         const insert_task_btn = document.getElementById('insert_task');
         const delete_task_btn = document.getElementById('delete_task');
 
         let selected_elem = null;
         let tree = makeSampleTree();
+        load_editor(tree);
 
         // select element
         function select_element() {
             selected_elem = getClickedElement(event, selected_elem);
         };
 
-        // search greatest depth
-        function search_max_depth(tree) {
-            let max_depth = 0;
-            let queue = [tree];
-            let node = null;
-            while (queue.length > 0) {
-                node = queue.shift();
-                if (node.depth > max_depth) {
-                    max_depth = node.depth;
-                }
-                queue = queue.concat(node.childrenArray);
-            }
-            return max_depth;
-        };
-
-        // complement element with tree
-        function complementEmptyElement(tree) {
-            let max_depth = search_max_depth(tree);
-            let queue = [tree];
-            let node = null;
-            while (queue.length > 0) {
-                node = queue.shift();
-                if (node.depth < max_depth && childrenArray.length == 0) {
-                    insert_task2tree(tree, selected_elem, inputForm);
-                }
-                queue = queue.concat(node.childrenArray);
-            }
-        };
-
         // load editor from Task Tree
         function load_editor(tree) {
             init_editor_area();
+            complementEmptyElement(tree);
             editor_area.insertAdjacentHTML("afterbegin", tree2html(tree));
             adjustElementHeight(tree);
         };
@@ -82,19 +57,26 @@
         });
 
         // request a input window
+        correct_task_btn.addEventListener('click', (event) => {
+
+        });
+
+        // request a input window
         insert_task_btn.addEventListener('click', (event) => {
             ipcRenderer.send('inputWindow:create');
         });
 
         // insert task
         ipcRenderer.on('inputForm:insert', (event, inputForm) => {
-            insert_task2tree(tree, selected_elem, inputForm);
+            let elem_name = selected_elem.innerHTML;
+            let elem_depth = Number(selected_elem.id.split('_')[0].split('d')[1]);
+            insert_task2tree(tree, elem_name, elem_depth, inputForm['name']);
             load_editor(tree);
         });
 
         // delete task
         delete_task_btn.addEventListener('click', (event) => {
-            load_editor(tree);
+
         });
     </script>
 </body>

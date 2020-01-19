@@ -93,17 +93,49 @@ export function search_node(tree: Tree_Node, elem_name: string, elem_depth: numb
 };
 
 /**
+ * search greatest depth of tree
+ * @param {Tree_Node} tree 
+ */
+export function search_max_depth(tree: Tree_Node) {
+    let max_depth: number = 0;
+    let queue: Tree_Node[] = [tree];
+    let node: Tree_Node = null;
+    while (queue.length > 0) {
+        node = queue.shift();
+        if (node.depth > max_depth) {
+            max_depth = node.depth;
+        }
+        queue = queue.concat(node.childrenArray);
+    }
+    return max_depth;
+};
+
+/**
  * insert task node to tree
  * @param {Tree_Node} tree 
- * @param {HTMLElement} selected_elem 
- * @param {{ name :string, progress: string }} inputForm 
+ * @param {string} elem_name
+ * @param {number} elem_depth
+ * @param {string} task_name 
  */
-export function insert_task2tree(tree: Tree_Node, selected_elem: HTMLElement, inputForm: { name: string, progress: string }) {
-    let elem_name: string = selected_elem.innerHTML;
-    let elem_depth: number = Number(selected_elem.id.split('_')[0].split('d')[1]);
+export function insert_task2tree(tree: Tree_Node, elem_name: string, elem_depth: number, task_name: string) {
     let selected_node: Tree_Node = search_node(tree, elem_name, elem_depth);
-    if (inputForm['name'] != "") {
-        const new_task_node: Tree_Node = new Tree_Node(inputForm['name']);
-        selected_node.addchild(new_task_node);
+    const new_task_node: Tree_Node = new Tree_Node(task_name);
+    selected_node.addchild(new_task_node);
+};
+
+/**
+ * complement empty element with tree
+ * @param {Tree_Node} tree 
+ */
+export function complementEmptyElement(tree: Tree_Node) {
+    let max_depth: number = search_max_depth(tree);
+    let queue: Tree_Node[] = [tree];
+    let node: Tree_Node = null;
+    while (queue.length > 0) {
+        node = queue.shift();
+        if (node.depth < max_depth && node.childrenArray.length == 0) {
+            insert_task2tree(tree, node.name, node.depth, "");
+        }
+        queue = queue.concat(node.childrenArray);
     }
 };
