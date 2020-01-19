@@ -6,13 +6,9 @@ export function getMousePos(event: any) {
     let posx: number = 0;
     let posy: number = 0;
     if (!event) event = window.event;
-    if (event.pageX || event.pageY) {
-        posx = event.pageX;
-        posy = event.pageY;
-    }
-    else if (event.clientX || event.clientY) {
-        posx = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-        posy = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+    if (event.clientX || event.clientY) {
+        posx = event.clientX + document.getElementById('editor_area').scrollLeft;
+        posy = event.clientY + document.getElementById('editor_area').scrollTop;
     }
     return { x: posx, y: posy }
 };
