@@ -4,6 +4,7 @@
 export class Tree_Node {
     name: string;
     depth: number;
+    id: number;
     parent: Tree_Node;
     childrenArray: Tree_Node[];
 
@@ -14,6 +15,7 @@ export class Tree_Node {
     constructor(nodeName: string) {
         this.name = nodeName;
         this.depth = 0;
+        this.id = 0;
         this.parent = null;
         this.childrenArray = [];
     };
@@ -25,6 +27,7 @@ export class Tree_Node {
     addchild(childnode: Tree_Node) {
         this.childrenArray.push(childnode);
         childnode.depth = this.depth + 1;
+        childnode.id = this.childrenArray.length;
         childnode.parent = this;
     };
 

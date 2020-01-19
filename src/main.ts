@@ -1,6 +1,6 @@
 import { app, BrowserWindow, ipcMain } from "electron";
-import { initMainWindowMenu } from "./menu/init";
-import { initInputWindow } from "./window/init";
+import { initMainWindowMenu } from "./menu";
+import { initInputWindow } from "./window";
 import path = require("path");
 
 let mainWindow: Electron.BrowserWindow;

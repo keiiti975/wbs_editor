@@ -6,10 +6,9 @@
     <title>wbs_editor</title>
     <link href="css/main.css" rel="stylesheet" />
     <script> var exports = {}; </script>
-    <script type="text/javascript" src="../js/tree/init.js"></script>
-    <script type="text/javascript" src="../js/window/generate.js"></script>
-    <script type="text/javascript" src="../js/window/transition.js"></script>
-    <script type="text/javascript" src="../js/utils/element_selector.js"></script>
+    <script type="text/javascript" src="../js/tree.js"></script>
+    <script type="text/javascript" src="../js/window.js"></script>
+    <script type="text/javascript" src="../js/element_selector.js"></script>
 </head>
 
 <body>
@@ -39,6 +38,35 @@
         // select element
         function select_element() {
             selected_elem = getClickedElement(event, selected_elem);
+        };
+
+        // search greatest depth
+        function search_max_depth(tree) {
+            let max_depth = 0;
+            let queue = [tree];
+            let node = null;
+            while (queue.length > 0) {
+                node = queue.shift();
+                if (node.depth > max_depth) {
+                    max_depth = node.depth;
+                }
+                queue = queue.concat(node.childrenArray);
+            }
+            return max_depth;
+        };
+
+        // complement element with tree
+        function complementEmptyElement(tree) {
+            let max_depth = search_max_depth(tree);
+            let queue = [tree];
+            let node = null;
+            while (queue.length > 0) {
+                node = queue.shift();
+                if (node.depth < max_depth && childrenArray.length == 0) {
+                    insert_task2tree(tree, selected_elem, inputForm);
+                }
+                queue = queue.concat(node.childrenArray);
+            }
         };
 
         // load editor from Task Tree
