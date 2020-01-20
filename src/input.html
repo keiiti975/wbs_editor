@@ -10,11 +10,11 @@
     <form>
         <fieldset>
             <legend>タスク情報</legend>
-            タスク：<input type="text" name="name" size="25"><br>
+            タスク：<input id="text_name" type="text" name="name" size="25"><br>
             進行度<br>
-            <input type="radio" name="progress" value="not_started" checked>未着手<br>
-            <input type="radio" name="progress" value="in_progress">進行中<br>
-            <input type="radio" name="progress" value="done">完了<br>
+            <input id="radio_not_started" type="radio" name="progress" value="not_started" checked>未着手<br>
+            <input id="radio_in_progress" type="radio" name="progress" value="in_progress">進行中<br>
+            <input id="radio_done" type="radio" name="progress" value="done">完了<br>
         </fieldset>
         <button type="submit">送信</button>
     </form>
@@ -27,6 +27,15 @@
         const { ipcRenderer } = electron;
 
         let form = document.querySelector("form");
+        let correctWindow_flag = false;
+
+        // send create_finished flag to main.ts
+        ipcRenderer.send('inputWindow:create_finished');
+
+        ipcRenderer.on('correctWindow:send_form', (event, elem_form) => {
+            correctWindow_flag = true;
+            document.getElementById("text_name").value = elem_form["name"];
+        });
 
         // submit task information
         form.addEventListener('submit', (event) => {
@@ -36,7 +45,11 @@
             for (const entry of form_data) {
                 json_form[entry[0]] = entry[1];
             };
-            ipcRenderer.send('inputForm:insert', json_form);
+            if (correctWindow_flag == true) {
+                ipcRenderer.send('inputForm:correct', json_form);
+            } else {
+                ipcRenderer.send('inputForm:insert', json_form);
+            }
         });
     </script>
 </body>

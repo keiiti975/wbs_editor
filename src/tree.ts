@@ -111,16 +111,28 @@ export function search_max_depth(tree: Tree_Node) {
 };
 
 /**
- * insert task node to tree
+ * insert task node
  * @param {Tree_Node} tree 
  * @param {string} elem_name
  * @param {number} elem_depth
  * @param {string} task_name 
  */
-export function insert_task2tree(tree: Tree_Node, elem_name: string, elem_depth: number, task_name: string) {
+export function insert_task(tree: Tree_Node, elem_name: string, elem_depth: number, task_name: string) {
     let selected_node: Tree_Node = search_node(tree, elem_name, elem_depth);
     const new_task_node: Tree_Node = new Tree_Node(task_name);
     selected_node.addchild(new_task_node);
+};
+
+/**
+ * correct task node
+ * @param {Tree_Node} tree 
+ * @param {string} elem_name
+ * @param {number} elem_depth
+ * @param {string} task_name 
+ */
+export function correct_task(tree: Tree_Node, elem_name: string, elem_depth: number, task_name: string) {
+    let selected_node: Tree_Node = search_node(tree, elem_name, elem_depth);
+    selected_node.name = task_name;
 };
 
 /**
@@ -134,7 +146,7 @@ export function complementEmptyElement(tree: Tree_Node) {
     while (queue.length > 0) {
         node = queue.shift();
         if (node.depth < max_depth && node.childrenArray.length == 0) {
-            insert_task2tree(tree, node.name, node.depth, "");
+            insert_task(tree, node.name, node.depth, "");
         }
         queue = queue.concat(node.childrenArray);
     }

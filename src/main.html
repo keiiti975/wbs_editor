@@ -56,12 +56,22 @@
             select_element();
         });
 
-        // request a input window
+        // request a input window (method: correct)
         correct_task_btn.addEventListener('click', (event) => {
-
+            let elem_name = selected_elem.innerHTML;
+            let elem_form = { 'name': elem_name };
+            ipcRenderer.send('correctWindow:create', elem_form);
         });
 
-        // request a input window
+        // correct task
+        ipcRenderer.on('inputForm:correct', (event, inputForm) => {
+            let elem_name = selected_elem.innerHTML;
+            let elem_depth = Number(selected_elem.id.split('_')[0].split('d')[1]);
+            correct_task(tree, elem_name, elem_depth, inputForm['name']);
+            load_editor(tree);
+        });
+
+        // request a input window (method: correct)
         insert_task_btn.addEventListener('click', (event) => {
             ipcRenderer.send('inputWindow:create');
         });
@@ -70,7 +80,7 @@
         ipcRenderer.on('inputForm:insert', (event, inputForm) => {
             let elem_name = selected_elem.innerHTML;
             let elem_depth = Number(selected_elem.id.split('_')[0].split('d')[1]);
-            insert_task2tree(tree, elem_name, elem_depth, inputForm['name']);
+            insert_task(tree, elem_name, elem_depth, inputForm['name']);
             load_editor(tree);
         });
 

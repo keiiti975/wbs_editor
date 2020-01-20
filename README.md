@@ -25,6 +25,7 @@ BrowserWindowは別ファイルからの構築にreturnが必須
 macOSにNode.jsを再インストールする必要あり  
 macOSにelectronが入らない時には、.electronに手動でパッケージを入れる  
 inline-blockでの横並びの隙間を塞ぐために、親要素にfont-size: 0をつける  
+for-of構文を使えばイテレータと同じことが出来る  
 
 #### コード付きメモ  
 htmlでexportのついたクラスや関数を呼び出す時、htmlで以下をつける  
