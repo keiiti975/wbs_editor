@@ -37,25 +37,33 @@
 
         let selected_elem = null;
         let tree = initTree();
-        load_editor(tree);
+        draw_editor(tree);
 
         // select element
         function select_element() {
             selected_elem = getClickedElement(event, selected_elem);
         };
 
-        // load editor from Task Tree
-        function load_editor(tree) {
+        // draw editor from tree
+        function draw_editor() {
             init_editor_area();
             complementEmptyElement(tree);
             editor_area.insertAdjacentHTML("afterbegin", tree2html(tree));
             adjustElementHeight(tree);
         };
 
-        function save_editor(tree) {
+        // save editor
+        function save_editor() {
             let json_tree = tree2json(tree);
             outputJSON(json_tree);
         };
+
+        // load editor
+        function load_editor() {
+            let json_data = loadJSON();
+            tree = json2tree(json_data);
+            draw_editor(tree);
+        }
 
         // get clicked element
         editor_area.addEventListener('click', (event) => {
@@ -74,7 +82,7 @@
             let elem_name = selected_elem.innerHTML;
             let elem_depth = Number(selected_elem.id.split('_')[0].split('d')[1]);
             correct_task(tree, elem_name, elem_depth, inputForm['name']);
-            load_editor(tree);
+            draw_editor();
         });
 
         // request a input window (method: correct)
@@ -87,7 +95,7 @@
             let elem_name = selected_elem.innerHTML;
             let elem_depth = Number(selected_elem.id.split('_')[0].split('d')[1]);
             insert_task(tree, elem_name, elem_depth, inputForm['name']);
-            load_editor(tree);
+            draw_editor();
         });
 
         // delete task
@@ -95,9 +103,14 @@
 
         });
 
-        // insert task
+        // save editor
         ipcRenderer.on('mainWindow:save', (event) => {
-            save_editor(tree);
+            save_editor();
+        });
+
+        // load editor
+        ipcRenderer.on('mainWindow:load', (event) => {
+            load_editor();
         });
     </script>
 </body>

@@ -21,6 +21,10 @@ export function initMainWindowMenu(mainWindow: Electron.BrowserWindow) {
                 {
                     label: 'Save',
                     click() { mainWindow.webContents.send("mainWindow:save"); }
+                },
+                {
+                    label: 'Load',
+                    click() { mainWindow.webContents.send("mainWindow:load"); }
                 }
             ]
         },

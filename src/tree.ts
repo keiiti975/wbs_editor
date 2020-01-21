@@ -165,13 +165,36 @@ export function complementEmptyElement(tree: Tree_Node) {
  * @param {Tree_Node} tree
  */
 export function tree2json(tree: Tree_Node) {
-    let json_tree: { "name": string, "depth": number, "id": number, "childrenArray": any }[] = [];
+    let json_tree: { "name": string, "childrenArray": any }[] = [];
     Array.prototype.forEach.call(tree.childrenArray, (value: Tree_Node) => {
         json_tree.push(tree2json(value));
     });
     if (tree.childrenArray.length == 0) {
-        return { "name": tree.name, "depth": tree.depth, "id": tree.id, "childrenArray": [] };
+        return { "name": tree.name, "childrenArray": [] };
     } else {
-        return { "name": tree.name, "depth": tree.depth, "id": tree.id, "childrenArray": json_tree };
+        return { "name": tree.name, "childrenArray": json_tree };
     }
+};
+
+/**
+ * generate tree from json_data
+ * @param { "name": string, "childrenArray": any } json_data 
+ */
+export function json2tree(json_data: { "name": string, "childrenArray": any }) {
+    let root: Tree_Node = new Tree_Node(json_data["name"]);
+    let queue: Tree_Node[] = [root];
+    let node: Tree_Node = null;
+    let json_queue: { "name": string, "childrenArray": any }[] = [json_data];
+    let current_json: { "name": string, "childrenArray": any } = null;
+    while (queue.length > 0) {
+        node = queue.shift();
+        current_json = json_queue.shift();
+        Array.prototype.forEach.call(current_json["childrenArray"], (value: { "name": string, "childrenArray": any }) => {
+            let child_node: Tree_Node = new Tree_Node(value["name"]);
+            node.addchild(child_node);
+            queue = queue.concat([child_node]);
+        });
+        json_queue = json_queue.concat(current_json["childrenArray"]);
+    }
+    return root;
 };
