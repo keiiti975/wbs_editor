@@ -15,7 +15,7 @@ export class Tree_Node {
     constructor(nodeName: string) {
         this.name = nodeName;
         this.depth = 0;
-        this.id = 0;
+        this.id = 1;
         this.parent = null;
         this.childrenArray = [];
     };
@@ -70,6 +70,14 @@ export function makeSampleTree() {
     group_A.addchild(group_A_3);
     group_A.addchild(group_A_4);
     group_A.addchild(group_A_5);
+    return root;
+};
+
+/**
+ * initialize Task Tree
+ */
+export function initTree() {
+    const root: Tree_Node = new Tree_Node('Root');
     return root;
 };
 
@@ -149,5 +157,21 @@ export function complementEmptyElement(tree: Tree_Node) {
             insert_task(tree, node.name, node.depth, "");
         }
         queue = queue.concat(node.childrenArray);
+    }
+};
+
+/**
+ * generate json with tree
+ * @param {Tree_Node} tree
+ */
+export function tree2json(tree: Tree_Node) {
+    let json_tree: { "name": string, "depth": number, "id": number, "childrenArray": any }[] = [];
+    Array.prototype.forEach.call(tree.childrenArray, (value: Tree_Node) => {
+        json_tree.push(tree2json(value));
+    });
+    if (tree.childrenArray.length == 0) {
+        return { "name": tree.name, "depth": tree.depth, "id": tree.id, "childrenArray": [] };
+    } else {
+        return { "name": tree.name, "depth": tree.depth, "id": tree.id, "childrenArray": json_tree };
     }
 };

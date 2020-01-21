@@ -6,6 +6,7 @@
     <title>wbs_editor</title>
     <link href="css/main.css" rel="stylesheet" />
     <script> var exports = {}; </script>
+    <script type="text/javascript" src="../js/io.js"></script>
     <script type="text/javascript" src="../js/tree.js"></script>
     <script type="text/javascript" src="../js/window.js"></script>
     <script type="text/javascript" src="../js/element_selector.js"></script>
@@ -35,7 +36,7 @@
         const delete_task_btn = document.getElementById('delete_task');
 
         let selected_elem = null;
-        let tree = makeSampleTree();
+        let tree = initTree();
         load_editor(tree);
 
         // select element
@@ -86,7 +87,7 @@
 
         // delete task
         delete_task_btn.addEventListener('click', (event) => {
-
+            let json_tree = tree2json(tree);
         });
     </script>
 </body>
