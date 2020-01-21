@@ -7,11 +7,20 @@ import { Menu } from "electron";
 export function initMainWindowMenu(mainWindow: Electron.BrowserWindow) {
     const template = [
         {
+            label: 'wbs_editor',
+            submenu: [
+                {
+                    label: 'About wbs_editor',
+                    click() { /* not created */ }
+                }
+            ]
+        },
+        {
             label: 'File',
             submenu: [
                 {
                     label: 'Save',
-                    click() { /* not created */ }
+                    click() { mainWindow.webContents.send("mainWindow:save"); }
                 }
             ]
         },
@@ -27,5 +36,5 @@ export function initMainWindowMenu(mainWindow: Electron.BrowserWindow) {
     ];
 
     const menu = Menu.buildFromTemplate(template);
-    mainWindow.setMenu(menu);
+    Menu.setApplicationMenu(menu);
 };
