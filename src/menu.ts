@@ -11,7 +11,7 @@ export function initMainWindowMenu(mainWindow: Electron.BrowserWindow) {
             submenu: [
                 {
                     label: 'About wbs_editor',
-                    click() { /* not created */ }
+                    click() { /* TODO */ }
                 }
             ]
         },

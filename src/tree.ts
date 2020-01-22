@@ -141,6 +141,8 @@ export function insert_task(tree: Tree_Node, elem_name: string, elem_depth: numb
         let child_node = selected_node.childrenArray[0];
         child_node.name = task_name;
         selected_node.childrenArray = [child_node];
+    } else if (selected_node.name == "") {
+        selected_node.name = task_name;
     } else {
         const new_task_node: Tree_Node = new Tree_Node(task_name);
         selected_node.addchild(new_task_node);
@@ -169,6 +171,7 @@ export function delete_task(tree: Tree_Node, elem_name: string, elem_depth: numb
     let selected_node: Tree_Node = search_node(tree, elem_name, elem_depth);
     if (selected_node.childrenArray.length > 0) {
         alert("選択されたタスクの下にタスクがあります");
+        /* TODO */
     } else {
         selected_node.parent.deletechild(selected_node);
     }
