@@ -127,8 +127,14 @@ export function search_max_depth(tree: Tree_Node) {
  */
 export function insert_task(tree: Tree_Node, elem_name: string, elem_depth: number, task_name: string) {
     let selected_node: Tree_Node = search_node(tree, elem_name, elem_depth);
-    const new_task_node: Tree_Node = new Tree_Node(task_name);
-    selected_node.addchild(new_task_node);
+    if (selected_node.childrenArray.length == 1 && selected_node.childrenArray[0].name == "") {
+        let child_node = selected_node.childrenArray[0];
+        child_node.name = task_name;
+        selected_node.childrenArray = [child_node];
+    } else {
+        const new_task_node: Tree_Node = new Tree_Node(task_name);
+        selected_node.addchild(new_task_node);
+    }
 };
 
 /**
