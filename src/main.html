@@ -100,7 +100,10 @@
 
         // delete task
         delete_task_btn.addEventListener('click', (event) => {
-
+            let elem_name = selected_elem.innerHTML;
+            let elem_depth = Number(selected_elem.id.split('_')[0].split('d')[1]);
+            delete_task(tree, elem_name, elem_depth);
+            draw_editor();
         });
 
         // save editor

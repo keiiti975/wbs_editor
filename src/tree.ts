@@ -31,6 +31,16 @@ export class Tree_Node {
         childnode.parent = this;
     };
 
+    deletechild(childnode: Tree_Node) {
+        let before_childrenArray = this.childrenArray;
+        this.childrenArray = [];
+        Array.prototype.forEach.call(before_childrenArray, (value: Tree_Node) => {
+            if (value.name != childnode.name) {
+                this.addchild(new Tree_Node(value.name));
+            }
+        });
+    };
+
     /**
      * count leaf node from this node
      */
@@ -150,6 +160,21 @@ export function correct_task(tree: Tree_Node, elem_name: string, elem_depth: num
 };
 
 /**
+ * delete task node
+ * @param {Tree_Node} tree 
+ * @param {string} elem_name 
+ * @param {number} elem_depth 
+ */
+export function delete_task(tree: Tree_Node, elem_name: string, elem_depth: number) {
+    let selected_node: Tree_Node = search_node(tree, elem_name, elem_depth);
+    if (selected_node.childrenArray.length > 0) {
+        alert("選択されたタスクの下にタスクがあります");
+    } else {
+        selected_node.parent.deletechild(selected_node);
+    }
+};
+
+/**
  * complement empty element with tree
  * @param {Tree_Node} tree 
  */
@@ -157,12 +182,24 @@ export function complementEmptyElement(tree: Tree_Node) {
     let max_depth: number = search_max_depth(tree);
     let queue: Tree_Node[] = [tree];
     let node: Tree_Node = null;
+    let leaves_parent: Tree_Node[] = [];
+    let leaves_empty_flag: boolean = true;
     while (queue.length > 0) {
         node = queue.shift();
         if (node.depth < max_depth && node.childrenArray.length == 0) {
             insert_task(tree, node.name, node.depth, "");
         }
+        if (node.depth == max_depth - 1) {
+            leaves_parent.push(node);
+        } else if (node.depth == max_depth && node.name != "") {
+            leaves_empty_flag = false;
+        }
         queue = queue.concat(node.childrenArray);
+    }
+    if (leaves_empty_flag == true) {
+        Array.prototype.forEach.call(leaves_parent, (value: Tree_Node) => {
+            value.childrenArray = [];
+        });
     }
 };
 
