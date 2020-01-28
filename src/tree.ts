@@ -150,17 +150,19 @@ export function search_max_depth(tree: Tree_Node) {
  * @param {string} elem_name
  * @param {number} elem_depth
  * @param {string} task_name
+ * @param {number} task_progress
+ * @param {boolean} mode_complement
  */
-export function insert_task(tree: Tree_Node, elem_name: string, elem_depth: number, task_name: string, task_progress: number) {
+export function insert_task(tree: Tree_Node, elem_name: string, elem_depth: number, task_name: string, task_progress: number, mode_complement: boolean = false) {
     let selected_node: Tree_Node = search_node(tree, elem_name, elem_depth);
-    if (selected_node.childrenArray.length == 1 && selected_node.childrenArray[0].name == "") {
+    if (selected_node.name == "" && mode_complement == false) {
+        selected_node.name = task_name;
+        selected_node.progress = task_progress;
+    } else if (selected_node.childrenArray.length == 1 && selected_node.childrenArray[0].name == "") {
         let child_node = selected_node.childrenArray[0];
         child_node.name = task_name;
         child_node.progress = task_progress;
         selected_node.childrenArray = [child_node];
-    } else if (selected_node.name == "") {
-        selected_node.name = task_name;
-        selected_node.progress = task_progress;
     } else {
         const new_task_node: Tree_Node = new Tree_Node(task_name, task_progress);
         selected_node.addchild(new_task_node);
@@ -208,7 +210,7 @@ export function complementEmptyElement(tree: Tree_Node) {
     while (queue.length > 0) {
         node = queue.shift();
         if (node.depth < max_depth && node.childrenArray.length == 0) {
-            insert_task(tree, node.name, node.depth, "", 0);
+            insert_task(tree, node.name, node.depth, "", 0, true);
         }
         if (node.depth == max_depth - 1) {
             leaves_parent.push(node);
