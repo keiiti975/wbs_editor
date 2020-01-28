@@ -21,6 +21,7 @@
         <a href="#" id="correct_task" class="btn-flat-border">correct</a>
         <a href="#" id="insert_task" class="btn-flat-border">insert</a>
         <a href="#" id="delete_task" class="btn-flat-border">delete</a>
+        <a href="#" id="debug1_task" class="btn-flat-border">debug1</a>
     </div>
 
     <script>
@@ -34,6 +35,7 @@
         const correct_task_btn = document.getElementById('correct_task');
         const insert_task_btn = document.getElementById('insert_task');
         const delete_task_btn = document.getElementById('delete_task');
+        const debug1_task_btn = document.getElementById('debug1_task');
 
         let selected_elem = null;
         let tree = initTree();
@@ -104,6 +106,10 @@
             let elem_depth = Number(selected_elem.id.split('_')[0].split('d')[1]);
             delete_task(tree, elem_name, elem_depth);
             draw_editor();
+        });
+
+        debug1_task_btn.addEventListener('click', (event) => {
+            visualize_tree(tree);
         });
 
         // save editor

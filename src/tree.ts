@@ -60,6 +60,20 @@ export class Tree_Node {
 };
 
 /**
+ * visualize task tree
+ * @param {Tree_Node} tree
+ */
+export function visualize_tree(tree: Tree_Node) {
+    let queue: Tree_Node[] = [tree];
+    let node: Tree_Node = null;
+    while (queue.length > 0) {
+        node = queue.shift();
+        console.log(node.name);
+        queue = queue.concat(node.childrenArray);
+    }
+};
+
+/**
  * make sample Task Tree
  */
 export function makeSampleTree() {
