@@ -131,7 +131,7 @@ export function tree2html(tree: Tree_Node) {
  * adjust element height with tree
  * @param {Tree_Node} tree 
  */
-export function adjustElementHeight(tree: Tree_Node) {
+export function adjustElement(tree: Tree_Node) {
     let elem_counter: number = 1;
     let elem_height: number = 25;
     let queue: Tree_Node[] = [tree];
@@ -150,6 +150,11 @@ export function adjustElementHeight(tree: Tree_Node) {
         }
         elem = document.getElementById("d" + String(node.depth) + "_" + String(elem_counter));
         elem.style.height = String(elem_height) + "px";
+        if (node.progress == 1) {
+            elem.style.backgroundColor = "orange";
+        } else if (node.progress == 2) {
+            elem.style.backgroundColor = "lime";
+        }
         queue = queue.concat(node.childrenArray);
         elem_counter += 1;
         before_node = node;

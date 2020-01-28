@@ -46,9 +46,13 @@ export function getClickedElement(event: any, selected_elem: HTMLElement) {
     let elem_posx: number = Math.floor(json_pos["x"] / 200);
     let elem_posy: number = Math.floor(json_pos["y"] / 25);
     let elem: HTMLElement = document.getElementById(getClickedElementId(elem_posx, elem_posy));
-    elem.style.backgroundColor = 'yellow';
+    elem.style.height = String(Number(elem.style.height.split("px")[0]) - 1) + "px";
+    elem.style.borderTop = "1px solid red";
+    elem.style.borderColor = "red";
     if (selected_elem != null && elem != selected_elem) {
-        selected_elem.style.backgroundColor = 'white';
+        selected_elem.style.height = String(Number(selected_elem.style.height.split("px")[0]) + 1) + "px";
+        selected_elem.style.borderTop = "none";
+        selected_elem.style.borderColor = "black";
     }
     return elem;
 };

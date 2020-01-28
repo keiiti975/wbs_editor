@@ -3,6 +3,7 @@
  */
 export class Tree_Node {
     name: string;
+    progress: number; // 0: not_started, 1: in_progress, 2: done
     depth: number;
     id: number;
     parent: Tree_Node;
@@ -12,8 +13,9 @@ export class Tree_Node {
      * constructor
      * @param {string} nodeName
      */
-    constructor(nodeName: string) {
+    constructor(nodeName: string, nodeProgress: number = 0) {
         this.name = nodeName;
+        this.progress = nodeProgress;
         this.depth = 0;
         this.id = 1;
         this.parent = null;
@@ -36,7 +38,7 @@ export class Tree_Node {
         this.childrenArray = [];
         Array.prototype.forEach.call(before_childrenArray, (value: Tree_Node) => {
             if (value.name != childnode.name) {
-                this.addchild(new Tree_Node(value.name));
+                this.addchild(new Tree_Node(value.name, value.progress));
             }
         });
     };
@@ -133,18 +135,20 @@ export function search_max_depth(tree: Tree_Node) {
  * @param {Tree_Node} tree 
  * @param {string} elem_name
  * @param {number} elem_depth
- * @param {string} task_name 
+ * @param {string} task_name
  */
-export function insert_task(tree: Tree_Node, elem_name: string, elem_depth: number, task_name: string) {
+export function insert_task(tree: Tree_Node, elem_name: string, elem_depth: number, task_name: string, task_progress: number) {
     let selected_node: Tree_Node = search_node(tree, elem_name, elem_depth);
     if (selected_node.childrenArray.length == 1 && selected_node.childrenArray[0].name == "") {
         let child_node = selected_node.childrenArray[0];
         child_node.name = task_name;
+        child_node.progress = task_progress;
         selected_node.childrenArray = [child_node];
     } else if (selected_node.name == "") {
         selected_node.name = task_name;
+        selected_node.progress = task_progress;
     } else {
-        const new_task_node: Tree_Node = new Tree_Node(task_name);
+        const new_task_node: Tree_Node = new Tree_Node(task_name, task_progress);
         selected_node.addchild(new_task_node);
     }
 };
@@ -190,7 +194,7 @@ export function complementEmptyElement(tree: Tree_Node) {
     while (queue.length > 0) {
         node = queue.shift();
         if (node.depth < max_depth && node.childrenArray.length == 0) {
-            insert_task(tree, node.name, node.depth, "");
+            insert_task(tree, node.name, node.depth, "", 0);
         }
         if (node.depth == max_depth - 1) {
             leaves_parent.push(node);

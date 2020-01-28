@@ -37,7 +37,7 @@
 
         let selected_elem = null;
         let tree = initTree();
-        draw_editor(tree);
+        draw_editor();
 
         // select element
         function select_element() {
@@ -49,7 +49,7 @@
             init_editor_area();
             complementEmptyElement(tree);
             editor_area.insertAdjacentHTML("afterbegin", tree2html(tree));
-            adjustElementHeight(tree);
+            adjustElement(tree);
         };
 
         // save editor
@@ -62,7 +62,7 @@
         function load_editor() {
             let json_data = loadJSON();
             tree = json2tree(json_data);
-            draw_editor(tree);
+            draw_editor();
         }
 
         // get clicked element
@@ -94,7 +94,7 @@
         ipcRenderer.on('inputForm:insert', (event, inputForm) => {
             let elem_name = selected_elem.innerHTML;
             let elem_depth = Number(selected_elem.id.split('_')[0].split('d')[1]);
-            insert_task(tree, elem_name, elem_depth, inputForm['name']);
+            insert_task(tree, elem_name, elem_depth, inputForm["name"], inputForm["progress"]);
             draw_editor();
         });
 
