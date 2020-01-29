@@ -68,7 +68,7 @@ export function visualize_tree(tree: Tree_Node) {
     let node: Tree_Node = null;
     while (queue.length > 0) {
         node = queue.shift();
-        console.log(node.name);
+        console.log("name: " + node.name + " progress: " + node.progress);
         queue = queue.concat(node.childrenArray);
     }
 };
@@ -175,10 +175,12 @@ export function insert_task(tree: Tree_Node, elem_name: string, elem_depth: numb
  * @param {string} elem_name
  * @param {number} elem_depth
  * @param {string} task_name 
+ * @param {number} task_progress
  */
-export function correct_task(tree: Tree_Node, elem_name: string, elem_depth: number, task_name: string) {
+export function correct_task(tree: Tree_Node, elem_name: string, elem_depth: number, task_name: string, task_progress: number) {
     let selected_node: Tree_Node = search_node(tree, elem_name, elem_depth);
     selected_node.name = task_name;
+    selected_node.progress = task_progress;
 };
 
 /**
