@@ -6,9 +6,8 @@
     <title>wbs_editor</title>
     <link href="css/main.css" rel="stylesheet" />
     <script> var exports = {}; </script>
-    <script type="text/javascript" src="../js/io.js"></script>
-    <script type="text/javascript" src="../js/tree.js"></script>
     <script type="text/javascript" src="../js/window.js"></script>
+    <script type="text/javascript" src="../js/task_array.js"></script>
     <script type="text/javascript" src="../js/element_selector.js"></script>
 </head>
 
@@ -21,7 +20,6 @@
         <a href="#" id="correct_task" class="btn-flat-border">correct</a>
         <a href="#" id="insert_task" class="btn-flat-border">insert</a>
         <a href="#" id="delete_task" class="btn-flat-border">delete</a>
-        <a href="#" id="debug1_task" class="btn-flat-border">debug1</a>
     </div>
 
     <script>
@@ -35,91 +33,45 @@
         const correct_task_btn = document.getElementById('correct_task');
         const insert_task_btn = document.getElementById('insert_task');
         const delete_task_btn = document.getElementById('delete_task');
-        const debug1_task_btn = document.getElementById('debug1_task');
 
         let selected_elem = null;
-        let tree = initTree();
+        let task_array = new Task_Array();
         draw_editor();
 
-        // select element
-        function select_element() {
-            selected_elem = getClickedElement(event, selected_elem);
-        };
-
-        // draw editor from tree
+        // draw editor from task_array
         function draw_editor() {
             init_editor_area();
-            complementEmptyElement(tree);
-            editor_area.insertAdjacentHTML("afterbegin", tree2html(tree));
-            adjustElement(tree);
+            editor_area.insertAdjacentHTML("afterbegin", array2html(task_array.task_array));
+            adjustElement(task_array.task_array);
         };
 
-        // save editor
-        function save_editor() {
-            let json_tree = tree2json(tree);
-            outputJSON(json_tree);
-        };
-
-        // load editor
-        function load_editor() {
-            let json_data = loadJSON();
-            tree = json2tree(json_data);
-            draw_editor();
-        }
-
-        // get clicked element
+        // select element
         editor_area.addEventListener('click', (event) => {
-            select_element();
+            clicked_id = event.target.id;
+            if (clicked_id.split("_")[1] != "area" && clicked_id.split("_")[1] != "name") {
+                selected_elem = getClickedElement(clicked_id, selected_elem);
+            }
         });
 
-        // request a input window (method: correct)
         correct_task_btn.addEventListener('click', (event) => {
-            let elem_name = selected_elem.innerHTML;
-            let elem_form = { 'name': elem_name };
-            ipcRenderer.send('correctWindow:create', elem_form);
+
         });
 
-        // correct task
-        ipcRenderer.on('inputForm:correct', (event, inputForm) => {
-            let elem_name = selected_elem.innerHTML;
-            let elem_depth = Number(selected_elem.id.split('_')[0].split('d')[1]);
-            correct_task(tree, elem_name, elem_depth, inputForm['name'], inputForm['progress']);
-            draw_editor();
-        });
-
-        // request a input window (method: correct)
+        // request a input window (method: input)
         insert_task_btn.addEventListener('click', (event) => {
             ipcRenderer.send('inputWindow:create');
         });
 
         // insert task
         ipcRenderer.on('inputForm:insert', (event, inputForm) => {
-            let elem_name = selected_elem.innerHTML;
-            let elem_depth = Number(selected_elem.id.split('_')[0].split('d')[1]);
-            insert_task(tree, elem_name, elem_depth, inputForm["name"], inputForm["progress"]);
+            let selected_elem_depth = selected_elem.id.split("_")[0].split("d")[1];
+            let selected_elem_id = selected_elem.id.split("_")[1];
+            task_array.add_child(Number(selected_elem_depth), Number(selected_elem_id) - 1, inputForm["name"]);
             draw_editor();
         });
 
-        // delete task
         delete_task_btn.addEventListener('click', (event) => {
-            let elem_name = selected_elem.innerHTML;
-            let elem_depth = Number(selected_elem.id.split('_')[0].split('d')[1]);
-            delete_task(tree, elem_name, elem_depth);
-            draw_editor();
-        });
-
-        debug1_task_btn.addEventListener('click', (event) => {
-            visualize_tree(tree);
-        });
-
-        // save editor
-        ipcRenderer.on('mainWindow:save', (event) => {
-            save_editor();
-        });
-
-        // load editor
-        ipcRenderer.on('mainWindow:load', (event) => {
-            load_editor();
+            task_array.display();
         });
     </script>
 </body>

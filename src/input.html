@@ -27,15 +27,6 @@
         const { ipcRenderer } = electron;
 
         let form = document.querySelector("form");
-        let correctWindow_flag = false;
-
-        // send create_finished flag to main.ts
-        ipcRenderer.send('inputWindow:create_finished');
-
-        ipcRenderer.on('correctWindow:send_form', (event, elem_form) => {
-            correctWindow_flag = true;
-            document.getElementById("text_name").value = elem_form["name"];
-        });
 
         // submit task information
         form.addEventListener('submit', (event) => {
@@ -50,11 +41,7 @@
                     else if (entry[1] == "done") json_form[entry[0]] = 2;
                 }
             };
-            if (correctWindow_flag == true) {
-                ipcRenderer.send('inputForm:correct', json_form);
-            } else {
-                ipcRenderer.send('inputForm:insert', json_form);
-            }
+            ipcRenderer.send('inputForm:insert', json_form);
         });
     </script>
 </body>

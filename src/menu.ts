@@ -20,11 +20,11 @@ export function initMainWindowMenu(mainWindow: Electron.BrowserWindow) {
             submenu: [
                 {
                     label: 'Save',
-                    click() { mainWindow.webContents.send("mainWindow:save"); }
+                    click() { /* TODO */ }
                 },
                 {
                     label: 'Load',
-                    click() { mainWindow.webContents.send("mainWindow:load"); }
+                    click() { /* TODO */ }
                 }
             ]
         },
