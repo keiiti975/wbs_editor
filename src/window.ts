@@ -110,11 +110,41 @@ export function adjustElement(task_array: string[][]) {
     let task_counter_per_column: number = 1;
     let elem_block_num: number = 1;
     let elem: HTMLElement = null;
+    let current_task_elem: HTMLElement = null;
     for (let i = 0; i < task_array[0].length; i++) {
         for (let j = 0; j < task_array.length; j++) {
             elem = document.getElementById("d" + String(i) + "_" + String(j + 1));
-            set_element_height(elem, 1);
+            if (current_task_elem == null && elem.innerHTML == "null") {
+                set_element_height(elem, 1);
+                elem.style.visibility = "hidden";
+                task_counter_per_column += 1;
+            } else if (current_task_elem == null && elem.innerHTML != "null") {
+                current_task_elem = elem;
+            } else if (current_task_elem != null && elem.innerHTML == "null") {
+                elem_block_num += 1;
+                elem.remove();
+            } else if (current_task_elem != null && elem.innerHTML != "null") {
+                set_element_height(current_task_elem, elem_block_num);
+                current_task_elem.id = "d" + String(i) + "_" + String(task_counter_per_column);
+                elem_block_num = 1;
+                task_counter_per_column += 1;
+                current_task_elem = elem;
+            }
         }
+        if (i < task_array[0].length - 1) {
+            set_element_height(current_task_elem, elem_block_num);
+            current_task_elem.id = "d" + String(i) + "_" + String(task_counter_per_column);
+            elem_block_num = 1;
+            task_counter_per_column = 1;
+            current_task_elem = null;
+        } else {
+            set_element_height(current_task_elem, 1);
+            current_task_elem.id = "d" + String(i) + "_" + String(task_counter_per_column);
+            elem_block_num = 1;
+            task_counter_per_column = 1;
+            current_task_elem = null;
+        }
+
     }
 };
 
