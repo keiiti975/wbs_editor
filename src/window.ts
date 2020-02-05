@@ -116,7 +116,6 @@ export function adjustElement(task_array: string[][]) {
             elem = document.getElementById("d" + String(i) + "_" + String(j + 1));
             if (current_task_elem == null && elem.innerHTML == "null") {
                 set_element_height(elem, 1);
-                elem.style.visibility = "hidden";
                 task_counter_per_column += 1;
             } else if (current_task_elem == null && elem.innerHTML != "null") {
                 current_task_elem = elem;

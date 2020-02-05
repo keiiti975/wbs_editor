@@ -109,6 +109,7 @@ export class Task_Array {
     add_child(w: number, h: number, task: string) {
         if (0 <= w && 0 <= h && w < this.task_array[0].length && h < this.task_array.length) {
             if (w + 1 >= this.task_array[0].length) this.add_w_axis(w + 1);
+            h = get_h_viewed_from_array(this.task_array, w, h);
             if (this.task_array[h][w + 1] == "null") {
                 // add child task when w + 1 is "null"
                 this.task_array[h][w + 1] = task;
