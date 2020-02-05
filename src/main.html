@@ -66,7 +66,6 @@
         ipcRenderer.on('inputForm:insert', (event, inputForm) => {
             let selected_elem_depth = selected_elem.id.split("_")[0].split("d")[1];
             let selected_elem_id = selected_elem.id.split("_")[1];
-            console.log(selected_elem_id);
             task_array.add_child(Number(selected_elem_depth), Number(selected_elem_id) - 1, inputForm["name"]);
             draw_editor();
         });

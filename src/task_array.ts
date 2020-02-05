@@ -152,14 +152,17 @@ export class Task_Array {
  * @param {number} h 
  */
 export function get_h_viewed_from_array(task_array: string[][], w: number, h: number) {
+    let smaller_id_null_flag = true;
     let h_viewed_from_array: number = 0;
     let h_viewed_from_window: number = 0;
     for (h_viewed_from_array = 0; h_viewed_from_array < task_array.length; h_viewed_from_array++) {
         if (task_array[h_viewed_from_array][w] != "null") {
+            smaller_id_null_flag = false;
             if (h_viewed_from_window == h) break;
+            h_viewed_from_window += 1;
+        } else if (task_array[h_viewed_from_array][w] == "null" && smaller_id_null_flag == true) {
             h_viewed_from_window += 1;
         }
     }
-    console.log(h);
     return h_viewed_from_array;
 };
