@@ -124,5 +124,5 @@ Temporary Items
 
 # End of https://www.gitignore.io/api/node
 js/
-TaskTree.json
+*.csv
 *.code-workspace

@@ -166,3 +166,28 @@ export function get_h_viewed_from_array(task_array: string[][], w: number, h: nu
     }
     return h_viewed_from_array;
 };
+
+/**
+ * generate csv with task_array
+ * @param {string[][]} task_array 
+ */
+export function array2csv(task_array: string[][]) {
+    let pos_comma: string[] = null;
+    let pos_new_line: string[] = null;
+    let csv_string: string = "";
+    for (let i = 0; i < task_array.length; i++) {
+        for (let j = 0; j < task_array[0].length; j++) {
+            pos_comma = task_array[i][j].match(/,/g);
+            pos_new_line = task_array[i][j].match(/\n/g);
+            if (pos_comma == null && pos_new_line == null) {
+                if (j == task_array[0].length - 1) csv_string += task_array[i][j];
+                else csv_string += task_array[i][j] + ",";
+            } else {
+                if (j == task_array[0].length - 1) csv_string += '"' + task_array[i][j].replace('"', '""') + '"';
+                else csv_string += '"' + task_array[i][j].replace('"', '""') + '"' + ",";
+            }
+        }
+        csv_string += "\n";
+    }
+    return csv_string;
+};

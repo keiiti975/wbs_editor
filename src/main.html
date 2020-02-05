@@ -6,6 +6,7 @@
     <title>wbs_editor</title>
     <link href="css/main.css" rel="stylesheet" />
     <script> var exports = {}; </script>
+    <script type="text/javascript" src="../js/io.js"></script>
     <script type="text/javascript" src="../js/window.js"></script>
     <script type="text/javascript" src="../js/task_array.js"></script>
     <script type="text/javascript" src="../js/element_selector.js"></script>
@@ -72,6 +73,17 @@
 
         delete_task_btn.addEventListener('click', (event) => {
             task_array.display();
+        });
+
+        // save editor
+        ipcRenderer.on('mainWindow:save', (event) => {
+            let csv_array = array2csv(task_array.task_array);
+            output_csv(csv_array);
+        });
+
+        // load editor
+        ipcRenderer.on('mainWindow:load', (event) => {
+            console.log("load");
         });
     </script>
 </body>
