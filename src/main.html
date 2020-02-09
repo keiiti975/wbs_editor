@@ -77,13 +77,13 @@
 
         // save editor
         ipcRenderer.on('mainWindow:save', (event) => {
-            let csv_array = array2csv(task_array.task_array);
-            output_csv(csv_array);
+            output_csv(task_array.task_array);
         });
 
         // load editor
         ipcRenderer.on('mainWindow:load', (event) => {
-            console.log("load");
+            task_array.task_array = load_csv();
+            draw_editor();
         });
     </script>
 </body>

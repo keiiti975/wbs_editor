@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/keiiti975/wbs_editor#readme",
   "dependencies": {
+    "csv": "^5.3.1",
     "electron": "^7.1.9"
   },
   "devDependencies": {
