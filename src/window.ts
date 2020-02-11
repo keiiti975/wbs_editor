@@ -4,8 +4,11 @@ import path = require("path");
 /**
  * create inputWindow
  * @param {Electron.BrowserWindow} inputWindow
+ * @param {number} width
+ * @param {number} height
+ * @param {string} name
  */
-export function initInputWindow(inputWindow: Electron.BrowserWindow, width: number, height: number) {
+export function initInputWindow(inputWindow: Electron.BrowserWindow, width: number, height: number, name: string = null) {
     inputWindow = new BrowserWindow({
         webPreferences: {
             nodeIntegration: true
@@ -17,6 +20,13 @@ export function initInputWindow(inputWindow: Electron.BrowserWindow, width: numb
     inputWindow.setMenu(null);
 
     inputWindow.loadFile(path.join(path.dirname(__dirname), "src", 'input.html'));
+    // initialize text_name
+    if (name != null) {
+        inputWindow.webContents.on('did-finish-load', () => {
+            let code = 'correctWindow_flag = true; document.getElementById("text_name").value = ' + '\"' + name + '\"';
+            inputWindow.webContents.executeJavaScript(code);
+        });
+    }
     return inputWindow;
 };
 

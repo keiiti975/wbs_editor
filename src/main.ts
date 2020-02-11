@@ -22,9 +22,20 @@ app.on("ready", () => {
     mainWindow.on("closed", () => app.quit());
 });
 
-// create inputWindow (method: input)
-ipcMain.on("inputWindow:create", (event) => {
+// create inputWindow (method: correct)
+ipcMain.on("inputWindow:correct", (event, elem_form) => {
+    inputWindow = initInputWindow(inputWindow, 350, 250, elem_form["name"]);
+});
+
+// create inputWindow (method: insert)
+ipcMain.on("inputWindow:insert", (event) => {
     inputWindow = initInputWindow(inputWindow, 350, 250);
+});
+
+// send inputForm to mainWindow (method: correct)
+ipcMain.on("inputForm:correct", (event, inputForm) => {
+    mainWindow.webContents.send("inputForm:correct", inputForm);
+    inputWindow.close();
 });
 
 // send inputForm to mainWindow (method: insert)

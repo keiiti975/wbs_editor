@@ -54,13 +54,24 @@
             }
         });
 
+        // request a input window (method: correct)
         correct_task_btn.addEventListener('click', (event) => {
+            let elem_name = selected_elem.innerHTML;
+            let elem_form = { "name": elem_name };
+            ipcRenderer.send('inputWindow:correct', elem_form);
+        });
 
+        // correct task
+        ipcRenderer.on('inputForm:correct', (event, inputForm) => {
+            let selected_elem_depth = selected_elem.id.split("_")[0].split("d")[1];
+            let selected_elem_id = selected_elem.id.split("_")[1];
+            task_array.set_task(Number(selected_elem_depth), Number(selected_elem_id) - 1, inputForm["name"]);
+            draw_editor();
         });
 
         // request a input window (method: input)
         insert_task_btn.addEventListener('click', (event) => {
-            ipcRenderer.send('inputWindow:create');
+            ipcRenderer.send('inputWindow:insert');
         });
 
         // insert task

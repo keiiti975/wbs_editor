@@ -27,6 +27,7 @@
         const { ipcRenderer } = electron;
 
         let form = document.querySelector("form");
+        let correctWindow_flag = false;
 
         // submit task information
         form.addEventListener('submit', (event) => {
@@ -41,7 +42,12 @@
                     else if (entry[1] == "done") json_form[entry[0]] = 2;
                 }
             };
-            ipcRenderer.send('inputForm:insert', json_form);
+            if (correctWindow_flag == true) {
+                ipcRenderer.send('inputForm:correct', json_form);
+            } else {
+                ipcRenderer.send('inputForm:insert', json_form);
+            }
+
         });
     </script>
 </body>

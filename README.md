@@ -1,4 +1,4 @@
-# wbs editor  
+# wbs_editor  
 使用ライブラリ  
 - Node.js  
 - Electron  
