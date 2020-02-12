@@ -82,13 +82,18 @@
             draw_editor();
         });
 
+        // delete task
         delete_task_btn.addEventListener('click', (event) => {
-            task_array.display();
+            let selected_elem_depth = selected_elem.id.split("_")[0].split("d")[1];
+            let selected_elem_id = selected_elem.id.split("_")[1];
+            task_array.delete_child(Number(selected_elem_depth), Number(selected_elem_id) - 1);
+            draw_editor();
         });
 
         // save editor
         ipcRenderer.on('mainWindow:save', (event) => {
-            output_csv(task_array.task_array);
+            //output_csv(task_array.task_array);
+            task_array.display();
         });
 
         // load editor

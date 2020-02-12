@@ -100,7 +100,6 @@ export class Task_Array {
      * get task from task_array
      * @param {number} w 
      * @param {number} h 
-     * @param {string} task 
      */
     get_task(w: number, h: number) {
         let h_viewed_from_array: number = 0;
@@ -148,6 +147,42 @@ export class Task_Array {
     };
 
     /**
+     * delete child task from task_array
+     * @param {number} w 
+     * @param {number} h 
+     */
+    delete_child(w: number, h: number) {
+        let h_viewed_from_array: number = 0;
+        let task_size: number = 0;
+        let array_slice1: string[][] = null;
+        let array_slice2: string[][] = null;
+        let new_task_row: string[] = null;
+        if (1 <= w && 0 <= h && w < this.task_array[0].length && h < this.task_array.length) {
+            h_viewed_from_array = get_h_viewed_from_array(this.task_array, w, h);
+            task_size = get_task_size(this.task_array, w, h);
+            //console.log("h: " + h_viewed_from_array + " task_size: " + task_size);
+            array_slice1 = this.task_array.slice(0, h_viewed_from_array);
+            array_slice2 = this.task_array.slice(h_viewed_from_array + task_size);
+            if (this.task_array[h_viewed_from_array][w - 1] != "null") {
+                new_task_row = new Array(this.task_array[0].length).fill("null");
+                new_task_row[w - 1] = this.task_array[h_viewed_from_array][w - 1];
+                if (array_slice1.length == 0) {
+                    this.task_array = array_slice2;
+                    this.task_array[0][w - 1] = new_task_row[w - 1];
+                } else {
+                    this.task_array = array_slice1.concat([new_task_row]).concat(array_slice2);
+                }
+            } else {
+                this.task_array = array_slice1.concat(array_slice2);
+            }
+        } else if (w == 0) {
+            console.log("error! can't delete root task");
+        } else {
+            console.log("error in delete_child");
+        }
+    };
+
+    /**
      * display task_array
      */
     display() {
@@ -177,4 +212,30 @@ export function get_h_viewed_from_array(task_array: string[][], w: number, h: nu
         }
     }
     return h_viewed_from_array;
+};
+
+/**
+ * get task size from array
+ * @param {string[][]} task_array 
+ * @param {number} w 
+ * @param {number} h 
+ */
+export function get_task_size(task_array: string[][], w: number, h: number) {
+    let h_viewed_from_array: number = get_h_viewed_from_array(task_array, w, h);
+    let h_viewed_from_array_next: number = h_viewed_from_array;
+    while (h_viewed_from_array_next < task_array.length) {
+        if (h_viewed_from_array_next == task_array.length - 1) {
+            // occur when w == task_array[0].length - 1 && h == task_array.length - 1
+            h_viewed_from_array_next += 1;
+            break;
+        }
+        h_viewed_from_array_next += 1;
+        if (task_array[h_viewed_from_array_next][w] != "null") {
+            break;
+        } else if (h_viewed_from_array_next == task_array.length - 1) {
+            h_viewed_from_array_next += 1;
+            break;
+        }
+    }
+    return h_viewed_from_array_next - h_viewed_from_array;
 };
