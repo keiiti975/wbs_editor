@@ -160,13 +160,19 @@ export class Task_Array {
         if (1 <= w && 0 <= h && w < this.task_array[0].length && h < this.task_array.length) {
             h_viewed_from_array = get_h_viewed_from_array(this.task_array, w, h);
             task_size = get_task_size(this.task_array, w, h);
-            //console.log("h: " + h_viewed_from_array + " task_size: " + task_size);
+            console.log("h: " + h_viewed_from_array + " task_size: " + task_size);
             array_slice1 = this.task_array.slice(0, h_viewed_from_array);
+            console.log(array_slice1);
             array_slice2 = this.task_array.slice(h_viewed_from_array + task_size);
+            console.log(array_slice2);
             if (this.task_array[h_viewed_from_array][w - 1] != "null") {
                 new_task_row = new Array(this.task_array[0].length).fill("null");
                 new_task_row[w - 1] = this.task_array[h_viewed_from_array][w - 1];
-                if (array_slice1.length == 0) {
+                if (array_slice1.length == 0 && array_slice2.length == 0) {
+                    for (let i = 0; i < this.task_array.length; i++) {
+                        this.task_array[i].pop();
+                    }
+                } else if (array_slice1.length == 0) {
                     this.task_array = array_slice2;
                     this.task_array[0][w - 1] = new_task_row[w - 1];
                 } else {
