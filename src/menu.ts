@@ -34,6 +34,10 @@ export function initMainWindowMenu(mainWindow: Electron.BrowserWindow) {
                 {
                     label: 'Open_DevTools',
                     click() { mainWindow.webContents.openDevTools(); }
+                },
+                {
+                    label: 'Display_task_array',
+                    click() { mainWindow.webContents.send("mainWindow:display_task_array"); }
                 }
             ]
         }

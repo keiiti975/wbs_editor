@@ -92,14 +92,18 @@
 
         // save editor
         ipcRenderer.on('mainWindow:save', (event) => {
-            //output_csv(task_array.task_array);
-            task_array.display();
+            output_csv(task_array.task_array);
         });
 
         // load editor
         ipcRenderer.on('mainWindow:load', (event) => {
             task_array.task_array = load_csv();
             draw_editor();
+        });
+
+        // display task array
+        ipcRenderer.on('mainWindow:display_task_array', (event) => {
+            task_array.display();
         });
     </script>
 </body>

@@ -121,6 +121,7 @@ export class Task_Array {
         if (0 <= w && 0 <= h && w < this.task_array[0].length && h < this.task_array.length) {
             if (w + 1 >= this.task_array[0].length) this.add_w_axis(w + 1);
             h = get_h_viewed_from_array(this.task_array, w, h);
+            console.log("w: " + w + " h: " + h);
             if (this.task_array[h][w + 1] == "null") {
                 // add child task when w + 1 is "null"
                 this.task_array[h][w + 1] = task;
@@ -133,7 +134,7 @@ export class Task_Array {
                         break;
                     } else {
                         h += 1;
-                        if (this.task_array[h][w] != "null") {
+                        if (this.task_array[h][w - 1] != "null" || this.task_array[h][w] != "null") {
                             this.add_h_axis(h);
                             this.task_array[h][w + 1] = task;
                             break;
@@ -160,11 +161,11 @@ export class Task_Array {
         if (1 <= w && 0 <= h && w < this.task_array[0].length && h < this.task_array.length) {
             h_viewed_from_array = get_h_viewed_from_array(this.task_array, w, h);
             task_size = get_task_size(this.task_array, w, h);
-            console.log("h: " + h_viewed_from_array + " task_size: " + task_size);
+            //console.log("h: " + h_viewed_from_array + " task_size: " + task_size);
             array_slice1 = this.task_array.slice(0, h_viewed_from_array);
-            console.log(array_slice1);
+            //console.log(array_slice1);
             array_slice2 = this.task_array.slice(h_viewed_from_array + task_size);
-            console.log(array_slice2);
+            //console.log(array_slice2);
             if (this.task_array[h_viewed_from_array][w - 1] != "null") {
                 new_task_row = new Array(this.task_array[0].length).fill("null");
                 new_task_row[w - 1] = this.task_array[h_viewed_from_array][w - 1];

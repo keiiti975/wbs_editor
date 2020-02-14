@@ -130,8 +130,21 @@ export function adjustElement(task_array: string[][]) {
             } else if (current_task_elem == null && elem.innerHTML != "null") {
                 current_task_elem = elem;
             } else if (current_task_elem != null && elem.innerHTML == "null") {
-                elem_block_num += 1;
-                elem.remove();
+                if (i > 0) {
+                    if (task_array[j][i - 1] == "null") {
+                        elem_block_num += 1;
+                        elem.remove();
+                    } else {
+                        set_element_height(current_task_elem, elem_block_num);
+                        current_task_elem.id = "d" + String(i) + "_" + String(task_counter_per_column);
+                        elem_block_num = 1;
+                        task_counter_per_column += 1;
+                        current_task_elem = elem;
+                    }
+                } else {
+                    elem_block_num += 1;
+                    elem.remove();
+                }
             } else if (current_task_elem != null && elem.innerHTML != "null") {
                 set_element_height(current_task_elem, elem_block_num);
                 current_task_elem.id = "d" + String(i) + "_" + String(task_counter_per_column);
