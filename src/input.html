@@ -35,8 +35,9 @@
             let form_data = new FormData(form);
             let json_form = {};
             for (const entry of form_data) {
-                json_form[entry[0]] = entry[1];
-                if (entry[0] == "progress") {
+                if (entry[0] == "name") {
+                    json_form[entry[0]] = entry[1];
+                } else if (entry[0] == "progress") {
                     if (entry[1] == "not_started") json_form[entry[0]] = 0;
                     else if (entry[1] == "in_progress") json_form[entry[0]] = 1;
                     else if (entry[1] == "done") json_form[entry[0]] = 2;

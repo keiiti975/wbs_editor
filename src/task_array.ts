@@ -121,7 +121,7 @@ export class Task_Array {
         if (0 <= w && 0 <= h && w < this.task_array[0].length && h < this.task_array.length) {
             if (w + 1 >= this.task_array[0].length) this.add_w_axis(w + 1);
             h = get_h_viewed_from_array(this.task_array, w, h);
-            console.log("w: " + w + " h: " + h);
+            //console.log("w: " + w + " h: " + h);
             if (this.task_array[h][w + 1] == "null") {
                 // add child task when w + 1 is "null"
                 this.task_array[h][w + 1] = task;
@@ -133,13 +133,13 @@ export class Task_Array {
                         this.task_array[h + 1][w + 1] = task;
                         break;
                     } else {
-                        h += 1;
-                        if (this.task_array[h][w - 1] != "null" || this.task_array[h][w] != "null") {
-                            this.add_h_axis(h);
-                            this.task_array[h][w + 1] = task;
+                        if (this.task_array[h + 1][w] != "null") {
+                            this.add_h_axis(h + 1);
+                            this.task_array[h + 1][w + 1] = task;
                             break;
                         }
                     }
+                    h += 1;
                 }
             }
         } else {
