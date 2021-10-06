@@ -1,4 +1,6 @@
 # wbs_editor  
+Work Breakdown Structure(WBS)を作成するためのアプリ。
+
 使用ライブラリ  
 - Node.js  
 - Electron  
